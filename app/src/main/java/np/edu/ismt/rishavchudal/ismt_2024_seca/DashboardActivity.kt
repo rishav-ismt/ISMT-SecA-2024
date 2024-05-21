@@ -13,9 +13,12 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
 
         val receivedEmail = intent.getStringExtra(AppConstants.KEY_ENTERED_EMAIL)
+
+
+        val test = intent.getParcelableExtra<Test>("testobject")
         Toast.makeText(
             this@DashboardActivity,
-            "Received Email: ".plus(receivedEmail),
+            "Variable 1: ".plus(test?.variable1),
             Toast.LENGTH_SHORT
         ).show()
     }

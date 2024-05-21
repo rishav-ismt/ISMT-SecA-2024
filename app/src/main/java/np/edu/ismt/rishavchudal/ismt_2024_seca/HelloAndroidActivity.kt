@@ -1,6 +1,8 @@
 package np.edu.ismt.rishavchudal.ismt_2024_seca
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.activity.enableEdgeToEdge
@@ -22,7 +24,24 @@ class HelloAndroidActivity : AppCompatActivity() {
         //Navigating to another activity
         Handler().postDelayed(
             {
-                val intent = Intent(this, LoginActivity::class.java)
+                //Fetching Shared Preferences Data
+                val sharedPreferences = this@HelloAndroidActivity.getSharedPreferences(
+                    "app",
+                    Context.MODE_PRIVATE
+                )
+                val isLoggedIn = sharedPreferences.getBoolean(
+                    "isLoggedIn",
+                    false
+                )
+
+                val intent: Intent
+                if (isLoggedIn) {
+                    //navigating to dashboard page
+                    intent = Intent(this, DashboardActivity::class.java)
+                } else {
+                    //navigating to login page
+                    intent = Intent(this, LoginActivity::class.java)
+                }
                 startActivity(intent)
                 finish()
             },

@@ -1,5 +1,6 @@
 package np.edu.ismt.rishavchudal.ismt_2024_seca
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -48,11 +49,27 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 // TODO validate email & password in server or local db
 
+                //Storing in SharedPreferences
+                val sharedPreferences = this@LoginActivity.getSharedPreferences(
+                    "app",
+                    Context.MODE_PRIVATE
+                )
+                val sharedPrefEditor = sharedPreferences.edit()
+                sharedPrefEditor.putBoolean("isLoggedIn", true)
+                sharedPrefEditor.apply()
+
+                //Navigating to Dashboard Activity
+                val test = Test(
+                    variable1 = "test",
+                    variable2 = 7
+                )
+
                 val intent = Intent(
                     this@LoginActivity,
                     DashboardActivity::class.java
                 )
                 intent.putExtra(AppConstants.KEY_ENTERED_EMAIL, email)
+                intent.putExtra("testobject", test)
                 startActivity(intent)
                 finish()
 
