@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_suggestion_item"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@android:drawable/ic_menu_gallery"/>
+
+    <TextView
+        android:id="@+id/tv_suggestion_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        tools:text="Item 1"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_suggestion_description"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        tools:text="Description 1"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:gravity="center"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_suggestion_add"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Add"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_suggestion_view"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="View"/>
+
+</LinearLayout>
