@@ -1,5 +1,6 @@
 package np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +27,10 @@ class HomeFragment : Fragment() {
             false
         )
         setUpSuggestionsRecyclerView()
+        binding.fabAdd.setOnClickListener {
+            val intent = Intent(requireActivity(), AddOrUpdateActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
 

@@ -7,7 +7,7 @@ import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.Product
 import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.LayoutSuggestionItemBinding
 
 class SuggestionsHorizontalAdapter(
-    val products: List<Product>
+    private val products: List<Product>
 ): RecyclerView.Adapter<SuggestionsHorizontalAdapter.ViewHolder>() {
 
     class ViewHolder(

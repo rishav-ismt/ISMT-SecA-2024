@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ISMT2024SecA"
         tools:targetApi="31">
         <activity
+            android:name=".dashboard.AddOrUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".dashboard.DashboardActivity"
             android:exported="false" />
         <activity
