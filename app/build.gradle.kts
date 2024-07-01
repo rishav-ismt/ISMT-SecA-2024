@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-parcelize")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -52,13 +53,20 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    val room_version = "2.6.1"
+    implementation(libs.room)
+    ksp(libs.room.compiler)
 
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    //for location
+    implementation(libs.location)
 
-//    // To use Kotlin annotation processing tool (kapt)
-//    kapt("androidx.room:room-compiler:$room_version")
-//    // To use Kotlin Symbol Processing (KSP)
-//    ksp("androidx.room:room-compiler:$room_version")
+    //for google maps
+    implementation(libs.googleMaps)
+
+    //for cameraX
+    implementation(libs.cameraXCore)
+    implementation(libs.camera2)
+    implementation(libs.cameraLifeCycle)
+    implementation(libs.cameraVideo)
+    implementation(libs.cameraView)
+    implementation(libs.cameraExtensions)
 }

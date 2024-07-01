@@ -10,6 +10,11 @@ material = "1.11.0"
 jetbrainsKotlinJvm = "1.9.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
+roomVersion = "2.6.1"
+ksp = "1.9.21-1.0.15"
+maps = "18.1.0"
+cameraX = "1.2.3"
+gmsLocation = "21.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -20,9 +25,23 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "gmsLocation"}
+googleMaps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "maps"}
+cameraXCore = { group = "androidx.camera", name = "camera-core", version.ref = "cameraX"}
+camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraX"}
+cameraLifeCycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX"}
+cameraVideo = { group = "androidx.camera", name = "camera-video", version.ref = "cameraX"}
+cameraView = { group = "androidx.camera", name = "camera-view", version.ref = "cameraX"}
+cameraExtensions = { group = "androidx.camera", name = "camera-extensions", version.ref = "cameraX"}
+
+
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

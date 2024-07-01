@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.DashboardActivity
 import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.ActivityLoginBinding
+import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.AppConstants
 
 class LoginActivity : AppCompatActivity() {
     private val TAG = "LoginActivity"
