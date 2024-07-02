@@ -140,7 +140,10 @@ class AddOrUpdateActivity : AppCompatActivity() {
                 name = productName,
                 price = productPrice,
                 description = productDescription,
-                category = category
+                category = category,
+                image = imageUriPath,
+                storeLocationLat = productLatitude,
+                storeLocationLng = productLongitude
             )
             val sampleDatabase = SampleDatabase.getInstance(this.applicationContext)
             val productDao = sampleDatabase.getProductDao()
