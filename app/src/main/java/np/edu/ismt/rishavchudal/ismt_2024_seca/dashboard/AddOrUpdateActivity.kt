@@ -53,6 +53,12 @@ class AddOrUpdateActivity : AppCompatActivity() {
         bindGalleryActivityForResult()
         updateContentIfProductReceived()
         isForUpdate = intent.getBooleanExtra(AppConstants.KEY_IS_UPDATE, false)
+        if (isForUpdate) {
+            binding.mbAddUpdate.text = "Update"
+        } else {
+            binding.mbAddUpdate.text = "Add"
+
+        }
 
         binding.ibBack.setOnClickListener {
             setResultWithFinish(RESULT_CODE_CANCEL, null)
@@ -92,16 +98,19 @@ class AddOrUpdateActivity : AppCompatActivity() {
             binding.tietProductPrice.setText(this.price)
             binding.tietProductDescription.setText(this.description)
             binding.actvSpinnerProductCategory.setText(this.category)
+
+            val address = GeoCoding.reverseTheGeoCodeToAddress(
+                context = this@AddOrUpdateActivity,
+                latitude = this.storeLocationLat ?: "",
+                longitude = this.storeLocationLng ?: ""
+                )
+
+            if (address.isNotBlank()) {
+                binding.mbProductLocation.text = address
+            }
             this.image?.apply {
                 loadThumbnailImage(this)
             }
-        }
-
-        if (isForUpdate) {
-            binding.mbAddUpdate.text = "Update"
-        } else {
-            binding.mbAddUpdate.text = "Add"
-
         }
     }
 
@@ -158,7 +167,17 @@ class AddOrUpdateActivity : AppCompatActivity() {
                         productDao.insertProduct(product.toProductEntity())
                     }
                     runOnUiThread {
-                        Toast.makeText(this@AddOrUpdateActivity, "Product Inserted...", Toast.LENGTH_SHORT).show()
+                        if (isForUpdate) {
+                            UiUtility.showToast(
+                                this@AddOrUpdateActivity,
+                                "Product Updated..."
+                            )
+                        } else {
+                            UiUtility.showToast(
+                                this@AddOrUpdateActivity,
+                                "Product Inserted..."
+                            )
+                        }
                         clearFieldsData()
                         setResultWithFinish(RESULT_CODE_COMPLETE, product)
                     }
