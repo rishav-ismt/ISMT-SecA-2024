@@ -59,6 +59,10 @@
         <activity android:name=".dashboard.MapsActivity"
             android:exported="false"/>
 
+        <activity
+            android:name=".dashboard.DetailViewActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDxn7kIBwJOYXBf34Z3_dhfjJ8IBCVjGgY" />

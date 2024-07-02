@@ -21,6 +21,7 @@ import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.ActivityAddOrUpdateBi
 import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.AppConstants
 import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.BitmapScalar
 import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.GeoCoding
+import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.UiUtility
 import java.io.IOException
 
 
@@ -50,6 +51,7 @@ class AddOrUpdateActivity : AppCompatActivity() {
         bindCustomCameraActivityForResult()
         bindMapsActivityForResult()
         bindGalleryActivityForResult()
+        updateContentIfProductReceived()
 
         binding.ibBack.setOnClickListener {
             setResultWithFinish(RESULT_CODE_CANCEL, null)
@@ -78,6 +80,22 @@ class AddOrUpdateActivity : AppCompatActivity() {
 
         if (!selectedItem.isNullOrBlank()) {
             binding.actvSpinnerProductCategory.setText(selectedItem, false)
+        }
+    }
+
+    //Updating content in page if it is an update case
+    private fun updateContentIfProductReceived() {
+        receivedProduct = intent.getParcelableExtra(AppConstants.KEY_PRODUCT)
+        receivedProduct?.apply {
+            binding.mbAddUpdate.text = "Update"
+            isForUpdate = true
+            binding.tietProductName.setText(this.name)
+            binding.tietProductPrice.setText(this.price)
+            binding.tietProductDescription.setText(this.description)
+            binding.actvSpinnerProductCategory.setText(this.category)
+            this.image?.apply {
+                loadThumbnailImage(this)
+            }
         }
     }
 
@@ -122,7 +140,14 @@ class AddOrUpdateActivity : AppCompatActivity() {
             val productDao = sampleDatabase.getProductDao()
             Thread {
                 try {
-                    productDao.insertProduct(product.≠toProductEntity())
+                    if (isForUpdate) {
+                        product.id = receivedProduct!!.id
+                        product.timeStamp = UiUtility.getCurrentTimeStampWithActionSpecified("Updated at ")
+                        productDao.updateProduct(product.toProductEntity())
+                    } else {
+                        product.timeStamp = UiUtility.getCurrentTimeStampWithActionSpecified("Created at ")
+                        productDao.insertProduct(product.toProductEntity())
+                    }
                     runOnUiThread {
                         Toast.makeText(this@AddOrUpdateActivity, "Product Inserted...", Toast.LENGTH_SHORT).show()
                         clearFieldsData()
@@ -130,6 +155,19 @@ class AddOrUpdateActivity : AppCompatActivity() {
                     }
                 } catch (exception: Exception) {
                     exception.printStackTrace()
+                    runOnUiThread {
+                        if (isForUpdate) {
+                            UiUtility.showToast(
+                                this@AddOrUpdateActivity,
+                                "Couldn't update user. Try Again..."
+                            )
+                        } else {
+                            UiUtility.showToast(
+                                this@AddOrUpdateActivity,
+                                "Couldn't insert user. Try Again..."
+                            )
+                        }
+                    }
                 }
             }.start()
         }
@@ -139,6 +177,7 @@ class AddOrUpdateActivity : AppCompatActivity() {
         binding.tietProductName.text?.clear()
         binding.tietProductPrice.text?.clear()
         binding.tietProductDescription.text?.clear()
+        binding.actvSpinnerProductCategory.text.clear()
     }
 
     private fun setResultWithFinish(resultCode: Int, product: Product?) {
@@ -217,7 +256,7 @@ class AddOrUpdateActivity : AppCompatActivity() {
     }
 
     private fun loadThumbnailImage(imageUriPath: String) {
-        binding.ivProductImage.post(Runnable {
+        binding.ivProductImage.post {
             var bitmap: Bitmap?
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(
@@ -233,7 +272,7 @@ class AddOrUpdateActivity : AppCompatActivity() {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-        })
+        }
     }
 
     private fun startMapActivity() {

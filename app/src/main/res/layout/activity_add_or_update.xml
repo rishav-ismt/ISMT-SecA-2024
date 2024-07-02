@@ -124,7 +124,7 @@
            android:insetBottom="0dp"
            android:layout_marginTop="16dp"
            android:backgroundTint="@color/teal_200"
-           tools:text="Add"
+           android:text="Add"
            />
    </LinearLayout>
 </ScrollView>
