@@ -6,15 +6,42 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
-import np.edu.ismt.rishavchudal.ismt_2024_seca.R
+import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.adapters.MyItemsHorizontalAdapter
 import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.adapters.SuggestionsHorizontalAdapter
+import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.db.SampleDatabase
+import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.db.toProduct
 import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.FragmentHomeBinding
+import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.AppConstants
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),
+    SuggestionsHorizontalAdapter.SuggestionsHorizontalAdapterListener,
+    MyItemsHorizontalAdapter.MyItemsHorizontalAdapterListener {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var startAddOrUpdateActivityForResult: ActivityResultLauncher<Intent>
+    private lateinit var startDetailViewActivityForResult: ActivityResultLauncher<Intent>
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startAddOrUpdateActivityForResult = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == AddOrUpdateActivity.RESULT_CODE_COMPLETE) {
+                setUpMyItemsRecyclerView()
+                setUpSuggestionsRecyclerView()
+            }
+        }
+
+        startDetailViewActivityForResult = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == DetailViewActivity.RESULT_CODE_REFRESH) {
+                setUpMyItemsRecyclerView()
+                setUpSuggestionsRecyclerView()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -26,17 +53,49 @@ class HomeFragment : Fragment() {
             container,
             false
         )
+        setUpWelcomeTextView()
+        setUpMyItemsRecyclerView()
         setUpSuggestionsRecyclerView()
-        binding.fabAdd.setOnClickListener {
-            val intent = Intent(requireActivity(), AddOrUpdateActivity::class.java)
-            startActivity(intent)
-        }
+        setUpFabAdd()
         return binding.root
+    }
+
+    private fun setUpWelcomeTextView() {
+        binding.tvGreetings.text = "Hi User,\n\nWelcome to Baby Buy!!"
+    }
+
+    private fun setUpMyItemsRecyclerView() {
+        val database = SampleDatabase.getInstance(requireActivity().applicationContext)
+        val productDao = database.getProductDao()
+        Thread {
+            val products = productDao.getAllProducts().map { it.toProduct() }
+            if (products.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    binding.clMyItems.visibility = View.GONE
+                }
+            } else {
+                requireActivity().runOnUiThread {
+                    binding.clMyItems.visibility = View.VISIBLE
+                    val adapter = MyItemsHorizontalAdapter(
+                        products,
+                        this
+                    )
+                    binding.rvMyItems.layoutManager = LinearLayoutManager(
+                        requireActivity(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                    binding.rvMyItems.adapter = adapter
+                }
+            }
+
+        }.start()
     }
 
     private fun setUpSuggestionsRecyclerView() {
         val adapter = SuggestionsHorizontalAdapter(
-            getSuggestions()
+            getSuggestions(),
+            this
         )
         binding.rvSuggestions.layoutManager = LinearLayoutManager(
             requireActivity(),
@@ -44,6 +103,13 @@ class HomeFragment : Fragment() {
             false
         )
         binding.rvSuggestions.adapter = adapter
+    }
+
+    private fun setUpFabAdd() {
+        binding.fabAdd.setOnClickListener {
+            val intent = Intent(requireActivity(), AddOrUpdateActivity::class.java)
+            startAddOrUpdateActivityForResult.launch(intent)
+        }
     }
 
     private fun getSuggestions(): List<Product> {
@@ -92,6 +158,35 @@ class HomeFragment : Fragment() {
         suggestions.add(suggestion6)
 
         return suggestions
+    }
+
+    override fun onViewSuggestionItemClicked(product: Product) {
+        val intent = Intent(
+            requireActivity(),
+            DetailViewActivity::class.java
+        )
+        intent.putExtra(AppConstants.KEY_PRODUCT, product)
+        intent.putExtra(AppConstants.KEY_IS_SUGGESTION, true)
+        startDetailViewActivityForResult.launch(intent)
+    }
+
+    override fun onAddSuggestionItemClicked(product: Product) {
+        val intent = Intent(
+            requireActivity(),
+            AddOrUpdateActivity::class.java
+        )
+        intent.putExtra(AppConstants.KEY_PRODUCT, product)
+        intent.putExtra(AppConstants.KEY_IS_UPDATE, false)
+        startAddOrUpdateActivityForResult.launch(intent)
+    }
+
+    override fun onViewMyItemClicked(product: Product) {
+        val intent = Intent(
+            requireActivity(),
+            DetailViewActivity::class.java
+        )
+        intent.putExtra(AppConstants.KEY_PRODUCT, product)
+        startDetailViewActivityForResult.launch(intent)
     }
 
 }

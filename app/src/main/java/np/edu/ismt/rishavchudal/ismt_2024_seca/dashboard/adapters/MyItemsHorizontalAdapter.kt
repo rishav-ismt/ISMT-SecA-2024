@@ -1,15 +1,16 @@
 package np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.Product
 import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.LayoutSuggestionItemBinding
 
-class SuggestionsHorizontalAdapter(
+class MyItemsHorizontalAdapter(
     private val products: List<Product>,
-    private val listener: SuggestionsHorizontalAdapterListener
-): RecyclerView.Adapter<SuggestionsHorizontalAdapter.ViewHolder>() {
+    private val listener: MyItemsHorizontalAdapterListener
+): RecyclerView.Adapter<MyItemsHorizontalAdapter.ViewHolder>() {
 
     class ViewHolder(
         val binding: LayoutSuggestionItemBinding
@@ -40,17 +41,13 @@ class SuggestionsHorizontalAdapter(
         val product = products[position]
         holder.binding.tvSuggestionName.text = product.name
         holder.binding.tvSuggestionDescription.text = product.description
+        holder.binding.mbSuggestionAdd.visibility = View.GONE
         holder.binding.mbSuggestionView.setOnClickListener {
-            listener.onViewSuggestionItemClicked(product)
-        }
-
-        holder.binding.mbSuggestionAdd.setOnClickListener {
-            listener.onAddSuggestionItemClicked(product)
+            listener.onViewMyItemClicked(product)
         }
     }
 
-    interface SuggestionsHorizontalAdapterListener {
-        fun onViewSuggestionItemClicked(product: Product)
-        fun onAddSuggestionItemClicked(product: Product)
+    interface MyItemsHorizontalAdapterListener {
+        fun onViewMyItemClicked(product: Product)
     }
 }

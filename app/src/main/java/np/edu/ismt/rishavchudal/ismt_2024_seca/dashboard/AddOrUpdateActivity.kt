@@ -52,6 +52,7 @@ class AddOrUpdateActivity : AppCompatActivity() {
         bindMapsActivityForResult()
         bindGalleryActivityForResult()
         updateContentIfProductReceived()
+        isForUpdate = intent.getBooleanExtra(AppConstants.KEY_IS_UPDATE, false)
 
         binding.ibBack.setOnClickListener {
             setResultWithFinish(RESULT_CODE_CANCEL, null)
@@ -87,8 +88,6 @@ class AddOrUpdateActivity : AppCompatActivity() {
     private fun updateContentIfProductReceived() {
         receivedProduct = intent.getParcelableExtra(AppConstants.KEY_PRODUCT)
         receivedProduct?.apply {
-            binding.mbAddUpdate.text = "Update"
-            isForUpdate = true
             binding.tietProductName.setText(this.name)
             binding.tietProductPrice.setText(this.price)
             binding.tietProductDescription.setText(this.description)
@@ -96,6 +95,13 @@ class AddOrUpdateActivity : AppCompatActivity() {
             this.image?.apply {
                 loadThumbnailImage(this)
             }
+        }
+
+        if (isForUpdate) {
+            binding.mbAddUpdate.text = "Update"
+        } else {
+            binding.mbAddUpdate.text = "Add"
+
         }
     }
 

@@ -7,5 +7,7 @@ class AppConstants {
         const val KEY_PRODUCT_LATITUDE = "latitude"
         const val KEY_PRODUCT_LONGITUDE = "longitude"
         const val KEY_PRODUCT = "product"
+        const val KEY_IS_SUGGESTION = "is_suggestion"
+        const val KEY_IS_UPDATE = "is_update"
     }
 }

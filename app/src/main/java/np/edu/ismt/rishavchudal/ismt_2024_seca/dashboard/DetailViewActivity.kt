@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.telephony.SmsManager
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -116,6 +117,13 @@ class DetailViewActivity : AppCompatActivity() {
         } catch (exception: java.lang.Exception) {
             exception.printStackTrace()
         }
+
+        if (intent.getBooleanExtra(AppConstants.KEY_IS_SUGGESTION, false)) {
+            detailViewBinding.ibEdit.visibility = View.GONE
+            detailViewBinding.ibShare.visibility = View.GONE
+            detailViewBinding.ibDelete.visibility = View.GONE
+            detailViewBinding.cbPurchased.visibility = View.GONE
+        }
     }
 
     private fun setUpButtons() {
@@ -139,6 +147,7 @@ class DetailViewActivity : AppCompatActivity() {
                 AddOrUpdateActivity::class.java
             ).apply {
                 this.putExtra(AppConstants.KEY_PRODUCT, receivedProduct)
+                this.putExtra(AppConstants.KEY_IS_UPDATE, true)
             }
             startAddItemActivity.launch(intent)
         }

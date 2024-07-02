@@ -19,7 +19,9 @@
         tools:text="Item 1"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/tv_suggestion_description"
@@ -28,6 +30,8 @@
         tools:text="Description 1"
         android:textSize="16sp"
         android:textStyle="normal"
+        android:lines="2"
+        android:ellipsize="end"
         android:gravity="center"/>
 
     <com.google.android.material.button.MaterialButton
