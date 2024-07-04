@@ -77,8 +77,9 @@ class HomeFragment : Fragment(),
                 requireActivity().runOnUiThread {
                     binding.clMyItems.visibility = View.VISIBLE
                     val adapter = MyItemsHorizontalAdapter(
-                        products,
-                        this
+                        context = requireActivity(),
+                        products = products,
+                        listener = this
                     )
                     binding.rvMyItems.layoutManager = LinearLayoutManager(
                         requireActivity(),

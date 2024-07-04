@@ -1,11 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".dashboard.ProfileFragment"
-    android:background="@android:color/holo_red_light">
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@android:color/holo_blue_light"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/iv_profile"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/ic_circle"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_1"
+        app:layout_constraintBottom_toBottomOf="@id/view_1"
+        android:src="@drawable/ic_profile_24"
+        android:padding="32dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="Sample User"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_contact_us"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/view_1"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:text="Contact Us"
+        android:drawableRight="@drawable/ic_arrow_forward_ios_24"
+        android:backgroundTint="@android:color/darker_gray"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/mb_contact_us"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:text="About Us"
+        android:drawableRight="@drawable/ic_arrow_forward_ios_24"
+        android:backgroundTint="@android:color/darker_gray"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/mb_about_us"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:text="Log Out"
+        android:drawableRight="@drawable/ic_arrow_forward_ios_24"
+        android:backgroundTint="@android:color/darker_gray"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

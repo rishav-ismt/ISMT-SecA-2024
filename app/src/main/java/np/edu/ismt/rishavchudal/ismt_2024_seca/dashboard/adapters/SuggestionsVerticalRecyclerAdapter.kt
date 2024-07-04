@@ -1,9 +1,6 @@
 package np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.adapters
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,18 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import np.edu.ismt.rishavchudal.ismt_2024_seca.R
 import np.edu.ismt.rishavchudal.ismt_2024_seca.dashboard.Product
 import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.LayoutItemProductExpandedBinding
-import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.BitmapScalar
+import np.edu.ismt.rishavchudal.ismt_2024_seca.databinding.LayoutSuggestionProductExpandedBinding
 import np.edu.ismt.rishavchudal.ismt_2024_seca.utility.UiUtility
-import java.io.IOException
 
-class MyItemsVerticalRecyclerAdapter(
+class SuggestionsVerticalRecyclerAdapter(
     private val products: List<Product>,
     private val listener: MyItemsAdapterListener,
     private val applicationContext: Context
-): RecyclerView.Adapter<MyItemsVerticalRecyclerAdapter.ViewHolder>() {
+): RecyclerView.Adapter<SuggestionsVerticalRecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(
-        val binding: LayoutItemProductExpandedBinding
+        val binding: LayoutSuggestionProductExpandedBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
     }
@@ -32,7 +28,7 @@ class MyItemsVerticalRecyclerAdapter(
         viewType: Int
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = LayoutItemProductExpandedBinding.inflate(
+        val binding = LayoutSuggestionProductExpandedBinding.inflate(
             layoutInflater,
             parent,
             false
@@ -58,7 +54,7 @@ class MyItemsVerticalRecyclerAdapter(
         holder.binding.tvItemTitle.text = products[position].name
         holder.binding.tvItemDescription.text = products[position].description
         holder.binding.itemRootLayout.setOnClickListener {
-            listener.onItemClicked(products[position], position)
+            listener.onItemClicked(products[position])
         }
         if (products[position].markAsPurchased) {
             val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_check_circle)
@@ -66,10 +62,14 @@ class MyItemsVerticalRecyclerAdapter(
         } else {
             holder.binding.tvItemTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         }
-        holder.binding.tvTimestamp.text = products[position].timeStamp
+
+        holder.binding.mbAdd.setOnClickListener {
+            listener.onAddItemClicked(products[position])
+        }
     }
 
     interface MyItemsAdapterListener {
-        fun onItemClicked(product: Product, position: Int)
+        fun onItemClicked(product: Product)
+        fun onAddItemClicked(product: Product)
     }
 }
